@@ -10,6 +10,8 @@ import Button from "../../ui/Button";
 import FileInput from "../../ui/FileInput";
 import Textarea from "../../ui/Textarea";
 import FormRow from "../../ui/FormRow";
+import useCreateCabin from "./useCreateCabin";
+import useEditCabin from "./useEditCabin";
 
 function CreateCabinForm({ cabinToEdit = {} }) {
   const isEdit = Boolean(cabinToEdit.id);
@@ -20,29 +22,8 @@ function CreateCabinForm({ cabinToEdit = {} }) {
 
   const { errors } = formState;
 
-  const queryClient = useQueryClient();
-  const { mutate: createCabin, isLoading: isCreating } = useMutation({
-    mutationFn: createCabinApi,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["cabins"],
-      });
-      toast.success("A new cabin is created successfully");
-    },
-    onError: () => toast.error("Cabin cannot be created"),
-  });
-
-  const { mutate: editCabin, isLoading: isEditing } = useMutation({
-    mutationFn: editCabinApi,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["cabins"],
-      });
-      toast.success("Cabin is edited successfully");
-    },
-    onError: () => toast.error("Cabin cannot be edited"),
-  });
-
+  const { createCabin, isCreating } = useCreateCabin();
+  const { editCabin, isEditing } = useEditCabin();
   const isProcessing = isCreating || isEditing;
 
   function onSubmit(data) {
