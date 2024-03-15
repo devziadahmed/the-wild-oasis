@@ -42,7 +42,7 @@ function App() {
             <Route path="cabins" element={<Cabins />} />
             <Route path="users" element={<Users />} />k
             <Route path="settings" element={<Settings />} />
-            <Route path="account" element={<Account />} />
+            <Route path="account" element={<Account />} />k
           </Route>
           <Route path="login" element={<Login />} />
           <Route path="*" element={<PageNotFound />} />k
