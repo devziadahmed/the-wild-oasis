@@ -33,7 +33,7 @@ function CreateCabinForm({ cabinToEdit = {} }) {
         { ...data, image: data.image[0] },
         {
           onSuccess: (data) => {
-            console.log(data);
+            // console.log(data);
             reset();
           },
         }

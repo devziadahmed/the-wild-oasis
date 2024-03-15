@@ -6,9 +6,6 @@ import CreateCabinForm from "./CreateCabinForm";
 import useDeleteCabin from "./useDeleteCabin";
 import { HiPencil, HiSquare2Stack, HiTrash } from "react-icons/hi2";
 import useCreateCabin from "./useCreateCabin";
-import supabase from "../../services/supabase";
-import { existingCabinNames } from "../../services/apiCabins";
-import { useQueryClient } from "@tanstack/react-query";
 
 const TableRow = styled.div`
   display: grid;
