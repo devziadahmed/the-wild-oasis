@@ -17,15 +17,7 @@ import Account from "./pages/Account";
 import Login from "./pages/login";
 import PageNotFound from "./pages/PageNotFound";
 import AppLayout from "./ui/AppLayout";
-
-export const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      // staleTime: 60 * 1000,
-      staleTime: 0,
-    },
-  },
-});
+import { queryClient } from "./utils/queryClinet";
 
 function App() {
   return (
@@ -40,12 +32,12 @@ function App() {
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="bookings" element={<Booking />} />
             <Route path="cabins" element={<Cabins />} />
-            <Route path="users" element={<Users />} />k
+            <Route path="users" element={<Users />} />
             <Route path="settings" element={<Settings />} />
-            <Route path="account" element={<Account />} />k
+            <Route path="account" element={<Account />} />
           </Route>
           <Route path="login" element={<Login />} />
-          <Route path="*" element={<PageNotFound />} />k
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
       </BrowserRouter>
 
