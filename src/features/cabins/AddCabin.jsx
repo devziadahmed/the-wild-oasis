@@ -1,19 +1,18 @@
 import { useState } from "react";
 import CreateCabinForm from "./CreateCabinForm";
 import Button from "../../ui/Button";
-import CabinTable from "./CabinTable";
+import Modal from "../../ui/Modal";
 
 function AddCabin() {
-  const [showForm, setShowForm] = useState(false);
+  const [isOpenModal, setIsOpenModal] = useState(false);
+
   return (
     <div>
-      <CabinTable />
+      <Button onClick={() => setIsOpenModal((show) => !show)}>Add new cabin</Button>
 
-      <Button onClick={() => setShowForm((show) => !show)}>Add new cabin</Button>
-
-      <div className={showForm ? "visible" : "hidden"}>
-        <CreateCabinForm />
-      </div>
+      <Modal onClose={() => setIsOpenModal(false)} isOpen={isOpenModal ? "true" : "false"}>
+        <CreateCabinForm onCloseModal={() => setIsOpenModal(false)} />
+      </Modal>
     </div>
   );
 }
