@@ -1,12 +1,7 @@
+import { createContext, useContext, useState } from "react";
 import { createPortal } from "react-dom";
 import { HiXMark } from "react-icons/hi2";
-import styled, { css } from "styled-components";
-
-const visibilityLogic = css`
-  opacity: ${(props) => (props.isopen === "true" ? 1 : 0)};
-  pointer-events: ${(props) => (props.isopen === "true" ? "auto" : "none")};
-  visibility: ${(props) => (props.isopen === "true" ? "visible" : "hidden")};
-`;
+import styled from "styled-components";
 
 const StyledModal = styled.div`
   position: fixed;
@@ -30,7 +25,6 @@ const Overlay = styled.div`
   backdrop-filter: blur(4px);
   z-index: 1000;
   transition: all 0.5s;
-  ${visibilityLogic}
 `;
 
 const Button = styled.button`
@@ -57,19 +51,44 @@ const Button = styled.button`
   }
 `;
 
-function Modal({ children, onClose, isOpen }) {
+const ModalContext = createContext();
+
+function Modal({ children }) {
+  const [openName, setOpenName] = useState("");
+
+  const close = () => setOpenName("");
+  const open = setOpenName;
+
+  return (
+    <ModalContext.Provider value={{ openName, close, open }}>{children}</ModalContext.Provider>
+  );
+}
+
+function Open({ opens: opensWindowName, renderButton }) {
+  const { open } = useContext(ModalContext);
+
+  return renderButton(() => open(opensWindowName));
+}
+
+function Window({ renderElement, name }) {
+  const { openName, close } = useContext(ModalContext);
+  if (name !== openName) return null;
+
   return createPortal(
-    <Overlay isopen={isOpen}>
+    <Overlay>
       <StyledModal role="modal">
-        <Button onClick={onClose}>
+        <Button onClick={close}>
           <HiXMark />
         </Button>
 
-        <div>{children}</div>
+        <div>{renderElement(close)}</div>
       </StyledModal>
     </Overlay>,
     document.getElementById("modal-root")
   );
 }
+
+Modal.Open = Open;
+Modal.Window = Window;
 
 export default Modal;
