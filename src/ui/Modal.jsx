@@ -1,7 +1,8 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { HiXMark } from "react-icons/hi2";
 import styled from "styled-components";
+import useOutside from "../hooks/useOutside";
 
 const StyledModal = styled.div`
   position: fixed;
@@ -72,20 +73,24 @@ function Open({ opens: opensWindowName, renderButton }) {
 
 function Window({ renderElement, name }) {
   const { openName, close } = useContext(ModalContext);
-  if (name !== openName) return null;
 
-  return createPortal(
-    <Overlay>
-      <StyledModal role="modal">
-        <Button onClick={close}>
-          <HiXMark />
-        </Button>
+  const modalRef = useRef(null);
+  useOutside(modalRef, close);
 
-        <div>{renderElement(close)}</div>
-      </StyledModal>
-    </Overlay>,
-    document.getElementById("modal-root")
-  );
+  if (name === openName) {
+    return createPortal(
+      <Overlay>
+        <StyledModal role="modal" ref={modalRef}>
+          <Button onClick={close}>
+            <HiXMark />
+          </Button>
+
+          <div>{renderElement(close)}</div>
+        </StyledModal>
+      </Overlay>,
+      document.getElementById("modal-root")
+    );
+  }
 }
 
 Modal.Open = Open;
