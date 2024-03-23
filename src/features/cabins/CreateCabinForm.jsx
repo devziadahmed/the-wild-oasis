@@ -23,8 +23,17 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
   const isProcessing = isCreating || isEditing;
 
   function onSubmit(data) {
-    if (isEdit) editCabin({ ...data });
-    else
+    if (isEdit) {
+      editCabin(
+        { ...data },
+        {
+          onSuccess: (data) => {
+            // console.log(data);
+            onCloseModal?.();
+          },
+        }
+      );
+    } else
       createCabin(
         { ...data, image: data.image[0] },
         {
