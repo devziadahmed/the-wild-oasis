@@ -90,7 +90,21 @@ function Row({ children }) {
   );
 }
 
-function Body({ children }) {}
+function Body({ data, render }) {
+  let tableContent = null;
+
+  tableContent =
+    typeof data !== "object" ? (
+      <Empty>
+        <strong>No data</strong> at the moment or maybe you entered <strong>invalid</strong>{" "}
+        data
+      </Empty>
+    ) : (
+      data.map(render)
+    );
+
+  return tableContent;
+}
 
 Table.Header = Header;
 Table.Body = Body;
