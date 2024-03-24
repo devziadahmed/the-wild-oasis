@@ -1,8 +1,15 @@
+import { createContext, useContext, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import { HiEllipsisVertical } from "react-icons/hi2";
 import styled from "styled-components";
+import useOutside from "../hooks/useOutside";
+import useWindowScroll from "../hooks/useScroll";
+import { MainContext } from "./AppLayout";
 
-const StyledMenu = styled.div`
+const Menu = styled.div`
   display: flex;
   align-items: center;
+  position: relative;
   justify-content: flex-end;
 `;
 
@@ -26,7 +33,7 @@ const StyledToggle = styled.button`
 `;
 
 const StyledList = styled.ul`
-  position: fixed;
+  position: absolute;
 
   background-color: var(--color-grey-0);
   box-shadow: var(--shadow-md);
@@ -60,3 +67,71 @@ const StyledButton = styled.button`
     transition: all 0.3s;
   }
 `;
+
+const MenusContext = createContext();
+
+function Menus({ children }) {
+  const [openId, setOpenId] = useState("");
+
+  const open = setOpenId;
+  const close = () => setOpenId("");
+
+  return (
+    <MenusContext.Provider value={{ openId, open, close }}>{children}</MenusContext.Provider>
+  );
+}
+
+function Toggle({ id }) {
+  const { openId, open, close } = useContext(MenusContext);
+
+  function handleClick() {
+    openId === "" || openId !== id ? open(id) : close();
+  }
+
+  return (
+    <StyledToggle onClick={handleClick}>
+      <HiEllipsisVertical />
+    </StyledToggle>
+  );
+}
+function List({ id, children }) {
+  const { openId, close } = useContext(MenusContext);
+  const { mainRef } = useContext(MainContext);
+
+  const listRef = useRef(null);
+  useOutside(listRef, close);
+
+  useWindowScroll(mainRef, close);
+
+  if (openId !== id) return null;
+
+  return (
+    <StyledList position={{ x: 32, y: 0 }} ref={listRef}>
+      {children}
+    </StyledList>
+  );
+}
+function Button({ children, icon, onClick }) {
+  const { close } = useContext(MenusContext);
+
+  function handleClick() {
+    onClick?.();
+    close();
+  }
+
+  return (
+    <li>
+      <StyledButton onClick={handleClick}>
+        {icon}
+        <span>{children}</span>
+      </StyledButton>
+    </li>
+  );
+}
+
+Menus.Menu = Menu;
+Menus.Toggle = Toggle;
+Menus.List = List;
+Menus.Button = Button;
+
+export default Menus;

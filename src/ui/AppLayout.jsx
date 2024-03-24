@@ -2,6 +2,7 @@ import { Outlet } from "react-router-dom";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import styled from "styled-components";
+import { createContext, useRef } from "react";
 
 const StyledAppLayout = styled.div`
   display: grid;
@@ -25,18 +26,24 @@ const Container = styled.div`
   gap: 3.2rem;
 `;
 
+export const MainContext = createContext();
+
 function AppLayout() {
+  const mainRef = useRef(null);
+
   return (
     <StyledAppLayout>
       <Header />
 
       <Sidebar />
 
-      <Main>
-        <Container>
-          <Outlet />
-        </Container>
-      </Main>
+      <MainContext.Provider value={{ mainRef }}>
+        <Main ref={mainRef}>
+          <Container>
+            <Outlet />
+          </Container>
+        </Main>
+      </MainContext.Provider>
     </StyledAppLayout>
   );
 }

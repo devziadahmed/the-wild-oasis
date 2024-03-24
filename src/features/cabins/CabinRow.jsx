@@ -8,6 +8,7 @@ import useCreateCabin from "./useCreateCabin";
 import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import Table from "../../ui/Table";
+import Menus from "../../ui/Menus";
 
 const Img = styled.img`
   display: block;
@@ -62,47 +63,53 @@ function CabinRow({ cabin }) {
       {discount > 0 ? <Discount>{formatCurrency(discount)}</Discount> : <span>&mdash;</span>}
 
       <div>
-        <button disabled={isCreating} onClick={() => handleDuplicate()}>
-          <HiSquare2Stack />
-        </button>
-
         <Modal>
-          <Modal.Open
-            opens="edit"
-            renderButton={(openFunction) => (
-              <button onClick={openFunction}>
-                <HiPencil />
-              </button>
-            )}
-          />
+          <Menus.Menu>
+            <Menus.Toggle id={cabinId} />
 
-          <Modal.Window
-            name="edit"
-            renderElement={(close) => (
-              <CreateCabinForm cabinToEdit={cabin} onCloseModal={close} />
-            )}
-          />
+            <Menus.List id={cabinId}>
+              <Menus.Button onClick={handleDuplicate} icon={<HiSquare2Stack />}>
+                Duplicate
+              </Menus.Button>
 
-          <Modal.Open
-            opens="delete"
-            renderButton={(openFunction) => (
-              <button onClick={openFunction}>
-                {isDeleting ? "Deleting..." : <HiTrash />}
-              </button>
-            )}
-          />
-
-          <Modal.Window
-            name="delete"
-            renderElement={(close) => (
-              <ConfirmDelete
-                resourceName="cabin"
-                onConfirm={() => deleteCabin(cabinId)}
-                disabled={isDeleting}
-                onCloseModal={close}
+              <Modal.Open
+                opens="edit"
+                renderButton={(openFunction) => (
+                  <Menus.Button onClick={openFunction} icon={<HiPencil />}>
+                    Edit
+                  </Menus.Button>
+                )}
               />
-            )}
-          />
+
+              <Modal.Open
+                opens="delete"
+                renderButton={(openFunction) => (
+                  <Menus.Button onClick={openFunction} icon={<HiTrash />}>
+                    Delete
+                  </Menus.Button>
+                )}
+              />
+            </Menus.List>
+
+            <Modal.Window
+              name="edit"
+              renderElement={(close) => (
+                <CreateCabinForm cabinToEdit={cabin} onCloseModal={close} />
+              )}
+            />
+
+            <Modal.Window
+              name="delete"
+              renderElement={(close) => (
+                <ConfirmDelete
+                  resourceName="cabin"
+                  onConfirm={() => deleteCabin(cabinId)}
+                  disabled={isDeleting}
+                  onCloseModal={close}
+                />
+              )}
+            />
+          </Menus.Menu>
         </Modal>
       </div>
     </Table.Row>
