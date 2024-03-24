@@ -17,7 +17,7 @@ import Account from "./pages/Account";
 import Login from "./pages/login";
 import PageNotFound from "./pages/PageNotFound";
 import AppLayout from "./ui/AppLayout";
-import { queryClient } from "./utils/queryClinet";
+import { queryClient } from "./services/queryClinet";
 
 function App() {
   return (
