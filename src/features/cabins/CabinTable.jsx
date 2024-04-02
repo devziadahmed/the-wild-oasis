@@ -7,6 +7,7 @@ import Spinner from "../../ui/Spinner";
 import useCabins from "./useCabins";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
+import Empty from "../../ui/Empty";
 
 function CabinTable() {
   const { cabins = [], isLoading, error } = useCabins();
@@ -27,6 +28,7 @@ function CabinTable() {
 
   if (error) content = <p>Error</p>;
   else if (isLoading) content = <Spinner />;
+  else if (!cabins.length) content = <Empty resource="cabins" />;
   else {
     content = (
       <Menus>
