@@ -8,6 +8,8 @@ function useScroll(ref, onScrollCallback) {
   const element = ref.current;
 
   useEffect(() => {
+    if (!element) return;
+
     element.addEventListener("scroll", onScrollCallback);
 
     return () => {
