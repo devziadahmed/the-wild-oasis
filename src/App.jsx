@@ -9,7 +9,7 @@ import GlobalStyles from "./styles/GlobalStyles";
 
 // pages
 import Dashboard from "./pages/Dashboard";
-import Booking from "./pages/Bookings";
+import Bookings from "./pages/Bookings";
 import Cabins from "./pages/Cabins";
 import Users from "./pages/Users";
 import Settings from "./pages/Settings";
@@ -18,6 +18,7 @@ import Login from "./pages/login";
 import PageNotFound from "./pages/PageNotFound";
 import AppLayout from "./ui/AppLayout";
 import { queryClient } from "./services/queryClinet";
+import Booking from "./pages/Booking";
 
 function App() {
   return (
@@ -30,7 +31,8 @@ function App() {
           <Route element={<AppLayout />}>
             <Route index element={<Navigate replace to={"dashboard"} />} />
             <Route path="dashboard" element={<Dashboard />} />
-            <Route path="bookings" element={<Booking />} />
+            <Route path="bookings" element={<Bookings />} />
+            <Route path="bookings/:id" element={<Booking />} />
             <Route path="cabins" element={<Cabins />} />
             <Route path="users" element={<Users />} />
             <Route path="settings" element={<Settings />} />
