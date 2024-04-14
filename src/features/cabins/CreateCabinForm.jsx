@@ -104,7 +104,7 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
           type="number"
           id="description"
           defaultValue=""
-          {...register("descreption", {
+          {...register("description", {
             required: "This field is required",
           })}
         />
