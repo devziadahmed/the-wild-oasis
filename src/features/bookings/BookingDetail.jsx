@@ -8,12 +8,15 @@ import ButtonGroup from "../../ui/ButtonGroup";
 import Button from "../../ui/Button";
 import ButtonText from "../../ui/ButtonText";
 import Spinner from "../../ui/Spinner";
+import Modal from "../../ui/Modal";
+import ConfirmDelete from "../../ui/ConfirmDelete";
 
 import { useMoveBack } from "../../hooks/useMoveBack";
 import useBooking from "./useBooking";
 import { useNavigate } from "react-router-dom";
 import { HiArrowUpOnSquare } from "react-icons/hi2";
 import useCheckout from "../check-in-out/useCheckout";
+import useDeleteBookings from "./useDeleteBookings";
 
 const HeadingGroup = styled.div`
   display: flex;
@@ -28,6 +31,8 @@ function BookingDetail() {
   const moveBack = useMoveBack();
   const navigate = useNavigate();
 
+  const { deleteBooking, isDeleting } = useDeleteBookings();
+
   if (isLoading) return <Spinner />;
 
   const { status, id: bookingId } = booking;
@@ -37,6 +42,8 @@ function BookingDetail() {
     "checked-in": "green",
     "checked-out": "silver",
   };
+
+  const handleDelete = () => {};
 
   return (
     <>
@@ -51,10 +58,6 @@ function BookingDetail() {
       <BookingDataBox booking={booking} />
 
       <ButtonGroup>
-        <Button variation="secondary" onClick={moveBack}>
-          Back
-        </Button>
-
         {status === "unconfirmed" && (
           <Button onClick={() => navigate(`/checkin/${bookingId}`)}>Check in</Button>
         )}
@@ -68,6 +71,36 @@ function BookingDetail() {
             Check out
           </Button>
         )}
+
+        <Modal>
+          <Modal.Open
+            opens="delete"
+            renderButton={(open) => (
+              <Button onClick={open} variation="danger" disabled={isDeleting}>
+                Delete Booking
+              </Button>
+            )}
+          />
+
+          <Modal.Window
+            name="delete"
+            renderElement={(close) => (
+              <ConfirmDelete
+                resourceName="booking"
+                onConfirm={() => {
+                  deleteBooking(bookingId, {
+                    onSuccess: () => moveBack(),
+                  });
+                }}
+                onCloseModal={close}
+              />
+            )}
+          />
+        </Modal>
+
+        <Button variation="secondary" onClick={moveBack}>
+          Back
+        </Button>
       </ButtonGroup>
     </>
   );
