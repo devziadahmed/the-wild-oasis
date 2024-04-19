@@ -3,6 +3,10 @@ import styled from "styled-components";
 import LoginForm from "../features/authentication/LoginForm";
 import Logo from "../ui/Logo";
 import Heading from "../ui/Heading";
+import { useUser } from "../features/authentication/useUser";
+import { useNavigate } from "react-router-dom";
+import Spinner from "../ui/Spinner";
+import { useEffect } from "react";
 
 const LoginLayout = styled.main`
   min-height: 100vh;
@@ -15,6 +19,15 @@ const LoginLayout = styled.main`
 `;
 
 function Login() {
+  const { isAuthenticated, isLoading: userLoading } = useUser();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAuthenticated && !userLoading) navigate("/");
+  }, [isAuthenticated, userLoading, navigate]);
+
+  if (userLoading) return <Spinner />;
+
   return (
     <LoginLayout>
       <Logo />
