@@ -3,17 +3,21 @@ import Button from "../../ui/Button";
 import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
+import { signUp } from "../../services/apiAuth";
+import { useSignUp } from "./useSignUp";
 
 // Email regex: /\S+@\S+\.\S+/
 
 const emailRegex = /\S+@\S+\.\S+/;
 
 function SignupForm() {
-  const { register, formState, getValues, handleSubmit } = useForm();
+  const { signUp, isLoading: isSigningUp } = useSignUp();
+  const { register, formState, getValues, handleSubmit, reset } = useForm();
   const { errors } = formState;
 
   function onSubmit(data) {
-    console.log(data);
+    const { fullName, email, password } = data;
+    signUp({ fullName, email, password }, { onSettled: () => reset() });
   }
 
   return (
@@ -23,6 +27,7 @@ function SignupForm() {
           type="text"
           id="fullName"
           {...register("fullName", { required: "This field is requried" })}
+          disabled={isSigningUp}
         />
       </FormRow>
 
@@ -37,6 +42,7 @@ function SignupForm() {
               message: "Please provide a valid email address",
             },
           })}
+          disabled={isSigningUp}
         />
       </FormRow>
 
@@ -48,6 +54,7 @@ function SignupForm() {
             required: "This field is requried",
             minLength: { value: 8, message: "Password has to be atleast 8 characters" },
           })}
+          disabled={isSigningUp}
         />
       </FormRow>
 
@@ -59,15 +66,16 @@ function SignupForm() {
             required: "This field is requried",
             validate: (value) => value === getValues("password") || "Passwords need to match",
           })}
+          disabled={isSigningUp}
         />
       </FormRow>
 
       <FormRow>
         {/* type is an HTML attribute! */}
-        <Button variation="secondary" type="reset">
+        <Button variation="secondary" type="reset" disabled={isSigningUp}>
           Cancel
         </Button>
-        <Button>Create new user</Button>
+        <Button disabled={isSigningUp}>Create new user</Button>
       </FormRow>
     </Form>
   );
