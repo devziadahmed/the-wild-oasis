@@ -1,4 +1,5 @@
-import supabase from "./supabase";
+import toast from "react-hot-toast";
+import supabase, { supabaseUrl } from "./supabase";
 
 export async function signUp({ fullName, email, password }) {
   const { data, error } = await supabase.auth.signUp({
@@ -39,4 +40,42 @@ export async function logout() {
   let { error } = await supabase.auth.signOut();
 
   if (error) throw new Error(error.message);
+}
+
+export async function updateCurrentUser({ password, fullName, avatar }) {
+  // Update password or full name
+
+  let updateData;
+  if (password) updateData = { password };
+  if (fullName) updateData = { data: { fullName } };
+
+  const { data, error } = await supabase.auth.updateUser(updateData);
+
+  if (error) throw new Error(error.message);
+  if (!avatar) return data;
+
+  // Update the avatar image
+
+  const fileName = `avatar-${data.user.id}-${Math.random()}`;
+
+  const uploadingPromise = supabase.storage.from("avatars").upload(fileName, avatar);
+
+  const { error: storageError } = await toast.promise(uploadingPromise, {
+    loading: "Uploading avatar",
+    success: "Avatar uploaded",
+    error: "Avatar cannot be uploaded",
+  });
+
+  if (storageError) throw new Error(storageError.message);
+
+  // Update avatar in the user
+
+  const { data: updatedUser, error: userError } = await supabase.auth.updateUser({
+    data: {
+      avatar: `${supabaseUrl}/storage/v1/object/public/avatars/${fileName}`,
+    },
+  });
+
+  if (userError) throw new Error(userError.message);
+  return updatedUser;
 }
