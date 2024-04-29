@@ -2,7 +2,8 @@ import { createGlobalStyle } from "styled-components";
 
 const GlobalStyles = createGlobalStyle`
 
-  :root {
+
+:root {
   &, &[data-theme="light"] {
   /* Grey */
   --color-grey-0: #fff;
