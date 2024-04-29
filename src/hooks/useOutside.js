@@ -5,7 +5,7 @@ import { useEffect } from "react";
  * @param {callback} onClickOutside - The callback function to be executed
  * @returns {void}
  */
-function useOutside(ref, onClickOutside) {
+function useOutside(ref, onClickOutside, listenCapturing = false) {
   function handleClick(e) {
     if (ref.current && !ref.current.contains(e.target)) {
       onClickOutside();
@@ -13,10 +13,10 @@ function useOutside(ref, onClickOutside) {
   }
 
   useEffect(() => {
-    document.addEventListener("click", handleClick, true);
+    document.addEventListener("click", handleClick, listenCapturing);
 
     return () => {
-      document.removeEventListener("click", handleClick, true);
+      document.removeEventListener("click", handleClick, listenCapturing);
     };
   }, []);
 }
