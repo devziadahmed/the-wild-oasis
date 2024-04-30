@@ -1,8 +1,10 @@
+import { Suspense, createContext, useRef } from "react";
 import { Outlet } from "react-router-dom";
+
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import styled from "styled-components";
-import { createContext, useRef } from "react";
+import Spinner from "./Spinner";
 
 const StyledAppLayout = styled.div`
   display: grid;
@@ -15,7 +17,7 @@ const StyledAppLayout = styled.div`
 const Main = styled.main`
   background-color: var(--color-grey-50);
   padding: 4rem 4.8rem 6.4rem;
-  overflow: scroll;
+  overflow-y: scroll;
 `;
 
 const Container = styled.div`
@@ -40,7 +42,9 @@ function AppLayout() {
       <MainContext.Provider value={{ mainRef }}>
         <Main ref={mainRef}>
           <Container>
-            <Outlet />
+            <Suspense fallback={<Spinner />}>
+              <Outlet />
+            </Suspense>
           </Container>
         </Main>
       </MainContext.Provider>

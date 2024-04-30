@@ -1,4 +1,5 @@
 // libs
+import { lazy } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
@@ -8,20 +9,22 @@ import { queryClient } from "./services/queryClinet";
 // Global CSS
 import GlobalStyles from "./styles/GlobalStyles";
 
-// pages
-import Dashboard from "./pages/Dashboard";
-import Bookings from "./pages/Bookings";
-import Cabins from "./pages/Cabins";
-import Users from "./pages/Users";
-import Settings from "./pages/Settings";
-import Account from "./pages/Account";
-import Login from "./pages/login";
-import PageNotFound from "./pages/PageNotFound";
-import AppLayout from "./ui/AppLayout";
-import Booking from "./pages/Booking";
-import Checkin from "./pages/Checkin";
-import ProtectedRoute from "./ui/ProtectedRoute";
 import { DarkModeProvider } from "./context/DarkModeContext";
+import { wait } from "./utils/helpers";
+
+// pages
+import AppLayout from "./ui/AppLayout";
+const Dashboard = lazy(() => wait(150).then(() => import("./pages/Dashboard")));
+const Bookings = lazy(() => wait(150).then(() => import("./pages/Bookings")));
+const Cabins = lazy(() => wait(150).then(() => import("./pages/Cabins")));
+const Users = lazy(() => wait(150).then(() => import("./pages/Users")));
+const Settings = lazy(() => wait(150).then(() => import("./pages/Settings")));
+const Account = lazy(() => wait(150).then(() => import("./pages/Account")));
+const Login = lazy(() => wait(150).then(() => import("./pages/Login")));
+const PageNotFound = lazy(() => wait(150).then(() => import("./pages/PageNotFound")));
+const Booking = lazy(() => wait(150).then(() => import("./pages/Booking")));
+const Checkin = lazy(() => wait(150).then(() => import("./pages/Checkin")));
+import ProtectedRoute from "./ui/ProtectedRoute";
 
 function App() {
   return (
@@ -40,6 +43,7 @@ function App() {
               }
             >
               <Route index element={<Navigate replace to={"dashboard"} />} />
+
               <Route path="dashboard" element={<Dashboard />} />
               <Route path="bookings" element={<Bookings />} />
               <Route path="bookings/:id" element={<Booking />} />
