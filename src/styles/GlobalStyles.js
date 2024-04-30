@@ -33,6 +33,9 @@ const GlobalStyles = createGlobalStyle`
   --color-red-700: #b91c1c;
   --color-red-800: #991b1b;
 
+  --scrollbar-bg-color: rgba(153, 153, 153, 0.7);
+  --scrollbar-bg-color-hover: rgba(153, 153, 153, 1);
+
   --backdrop-color: rgba(255, 255, 255, 0.1);
 
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
@@ -71,6 +74,9 @@ const GlobalStyles = createGlobalStyle`
     --color-red-700: #b91c1c;
     --color-red-800: #991b1b;
 
+    --scrollbar-bg-color: rgba(55, 65, 81, 0.5);
+    --scrollbar-bg-color-hover: rgba(55, 65, 81, 0.8);
+
     --backdrop-color: rgba(0, 0, 0, 0.3);
 
     --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
@@ -79,6 +85,8 @@ const GlobalStyles = createGlobalStyle`
 
     --image-grayscale: 10%;
     --image-opacity: 90%;
+
+    
   }
 
     /* Indigo */
@@ -113,8 +121,28 @@ const GlobalStyles = createGlobalStyle`
   transition: background-color 0.3s, border 0.3s;
 }
 *::selection {
-  background-color: var(--color-brand-600);
+  background-color: var(--color-brand-700);
   color: white;
+}
+
+::-webkit-scrollbar {
+    height: 1rem;
+    width: .9rem;
+}
+
+::-webkit-scrollbar-thumb {
+    --tw-border-opacity: 1;
+    background-color: var(--scrollbar-bg-color);
+    border-radius: 9999px;
+    border-width: 1px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--scrollbar-bg-color-hover);
+}
+
+::-webkit-scrollbar-track {
+    background-color: transparent;
+    border-radius: 9999px;
 }
 
 html {
@@ -205,6 +233,7 @@ img {
   visibility: visible;
   transition: opacity 0.3s ease;
 }
+
 
 /*
 FOR DARK MODE
