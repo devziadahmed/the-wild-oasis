@@ -75,7 +75,7 @@ function Window({ renderElement, name }) {
   const { openName, close } = useContext(ModalContext);
 
   const modalRef = useRef(null);
-  useOutside(modalRef, close);
+  useOutside(modalRef, close, true);
 
   if (name === openName) {
     return createPortal(
