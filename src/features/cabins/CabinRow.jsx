@@ -41,7 +41,7 @@ function CabinRow({ cabin }) {
   const { deleteCabin, isDeleting } = useDeleteCabin();
   const { createCabin, isCreating } = useCreateCabin();
 
-  const { id: cabinId, name, maxCapacity, regularPrice, discount, image, descreption } = cabin;
+  const { id: cabinId, name, maxCapacity, regularPrice, discount, image, description } = cabin;
 
   async function handleDuplicate() {
     createCabin({
@@ -50,7 +50,7 @@ function CabinRow({ cabin }) {
       regularPrice,
       discount,
       image,
-      descreption,
+      description,
     });
   }
 
