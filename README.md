@@ -31,3 +31,5 @@ Another features that i am still working on:
 - Generating pdf invoice for checkouts and mail it to the user
 
 Special thanks to https://github.com/jonasschmedtmann, he helped me in a lot of things
+
+Screen Shots for App Screens: https://drive.google.com/drive/folders/1lJQtFvUwz-AiKYQpdKx7Hm4wKGWBR6bY?usp=drive_link
