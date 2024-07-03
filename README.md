@@ -19,7 +19,7 @@ Live Demo:
 
 - **Note that Supabase services may be down due to no longer being used**
 - netlify: https://the-wild-oasis7.netlify.app
-- vercel: https://the-wild-oasis-ivory-three.vercel.app/login
+- vercel: [https://the-wild-oasis-ivory-three.vercel.app/login](https://the-wild-oasis-ivory-three.vercel.app/)
 
 Login credentioals: email: diteli3238@kravify.com - passowrd: 12345678
 
